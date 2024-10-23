@@ -259,6 +259,6 @@ main .section.highlight {
     background-color: #0070c0; /* Change background color */
     color: white; /* Change text color for contrast */
 } */
-.section.blue > div p:first-of-type {
+main .section.blue > div p:first-of-type {
     background-color: blue;
 }
