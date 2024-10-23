@@ -111,7 +111,9 @@ h6 {
   line-height: 1.25;
   scroll-margin: 40px;
 }
-
+p > strong {
+    background-color: blue;
+}
 h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
