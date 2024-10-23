@@ -1,4 +1,3 @@
-
 // Get all divs within the blue class
 const nestedDivs = document.getElementsByClassName('blue')[0].getElementsByTagName('div');
 
