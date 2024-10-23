@@ -111,7 +111,7 @@ h6 {
   line-height: 1.25;
   scroll-margin: 40px;
 }
-p > strong {
+strong {
     background-color: blue;
 }
 h1 { font-size: var(--heading-font-size-xxl); }
