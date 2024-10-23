@@ -1,6 +1,6 @@
 export default function decorate(block) {
   // Select the first paragraph inside the div with class 'literature'
-const firstParagraph = document.querySelector('.blue div p:first-of-type');
+const firstParagraph = document.querySelector('.blue > div p:first-of-type');
 
 // Change the style of the first paragraph
 if (firstParagraph) {
