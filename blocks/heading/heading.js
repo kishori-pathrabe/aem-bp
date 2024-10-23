@@ -1,9 +1,10 @@
 export default function decorate(block) {
-  // Select the first paragraph inside the div with class 'literature'
-const firstParagraph = document.querySelector('.blue > div p:first-of-type');
+ // Select the first paragraph inside the nested div within the div with class 'literature'
+const nestedFirstParagraph = document.querySelector('.literature > div p:first-of-type');
 
-// Change the style of the first paragraph
-if (firstParagraph) {
-    firstParagraph.style.color = 'blue'; // Change text color to blue
+// Change the style of the first nested paragraph
+if (nestedFirstParagraph) {
+    nestedFirstParagraph.style.backgroundColor = '#0070c0'; // Change background color
 }
+
 }
