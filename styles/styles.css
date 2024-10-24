@@ -258,4 +258,5 @@ main .section.highlight {
 main .section.blue > div p:first-of-type {
     background-color: #0070c0; /* Change background color */
     color: white; /* Change text color for contrast */
+    text-transform: uppercase;
 }
