@@ -259,6 +259,3 @@ main .section.blue > div p:first-of-type {
     background-color: #0070c0; /* Change background color */
     color: white; /* Change text color for contrast */
 }
-/* main > .section.blue > div p:nth-child(1) {
-    background-color: blue;
-} */
