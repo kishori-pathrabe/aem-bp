@@ -1,4 +1,4 @@
-const paragraph = document.querySelector('.link');
+const paragraph = document.querySelector('.link > div p');
 const content = paragraph.textContent;
 
 // Use a regular expression to find the URL starting with "https://"
