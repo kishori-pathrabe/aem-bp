@@ -1,12 +1,16 @@
-// // Get all divs within the blue class
-// const nestedDivs = document.getElementsByClassName('blue')[0].getElementsByTagName('div');
-// console.log(nestedDivs);
-// // Check if there's at least one nested div
-// if (nestedDivs.length > 0) {
-//     const firstParagraph = nestedDivs[0].getElementsByTagName('p')[0];
+const ul = document.querySelector('.default-content-wrapper ul');
 
-//     // Change the style of the first nested paragraph
-//     if (firstParagraph) {
-//         firstParagraph.style.backgroundColor = '#0070c0'; // Change background color
-//     }
-// }
+// Select the paragraph that you want to convert into a list item
+const paragraph = document.querySelector('.default-content-wrapper p:nth-of-type(2)');
+
+// Create a new list item (li)
+const li = document.createElement('li');
+
+// Move the content of the paragraph into the new list item
+li.innerHTML = paragraph.innerHTML;
+
+// Append the new list item to the unordered list
+ul.appendChild(li);
+
+// Optionally, remove the original paragraph
+paragraph.remove();
