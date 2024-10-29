@@ -40,6 +40,21 @@ async function loadFonts() {
     // do nothing
   }
 }
+
+/**
+ * Builds all synthetic blocks in a container element.
+ * @param {Element} main The container element
+ */
+function buildAutoBlocks(main) {
+  try {
+    buildHeroBlock(main);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Auto Blocking failed', error);
+  }
+}
+
+// Helper function to convert absolute URLs to relative
 function convertToRelative(href) {
   const url = new URL(href, window.location.origin);
   return url.pathname + url.search + url.hash;
@@ -51,6 +66,16 @@ function generateId(href) {
   return url.pathname.replace(/[^\w-]+/g, '_') + url.search.replace(/[^\w-]+/g, '_') + url.hash.replace(/[^\w-]+/g, '_');
 }
 
+
+function decorateLinks(main) {
+  // Get all anchor elements within the main container
+  const links = main.querySelectorAll('a');
+
+  // Helper function to convert absolute URLs to relative
+  function convertToRelative(href) {
+      const url = new URL(href, window.location.origin);
+      return url.pathname + url.search + url.hash;
+  }
 
   // Counter to generate unique ids for each internal link and backlinks
   let linkCounter = 0;
@@ -110,18 +135,6 @@ function generateId(href) {
 }
 
 
-/**
- * Builds all synthetic blocks in a container element.
- * @param {Element} main The container element
- */
-function buildAutoBlocks(main) {
-  try {
-    buildHeroBlock(main);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Auto Blocking failed', error);
-  }
-}
 
 /**
  * Decorates the main element.
@@ -135,6 +148,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateLinks(main);
 }
 
 /**
