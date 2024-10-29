@@ -53,7 +53,7 @@ function generateId(href) {
 
 
 function decorateLinks(main) {
-  export function decorateBookmarkLinks(main) {
+
   main.querySelectorAll('a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href) {
@@ -64,7 +64,7 @@ function decorateLinks(main) {
     }
   });
 }
-}
+
 
 /**
  * Builds all synthetic blocks in a container element.
