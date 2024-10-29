@@ -53,32 +53,17 @@ function generateId(href) {
 
 
 function decorateLinks(main) {
-  const links = document.querySelectorAll('a[href^="#bookmark"]');
-
-        links.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the default anchor behavior
-                
-                // Update the URL without refreshing the page
-                const originalUrl = window.location.href.split('#')[0]; // Base URL without fragment
-                history.pushState(null, '', this.getAttribute('href')); // Update the URL with the bookmark
-                
-                // Scroll to the bookmark
-                const bookmarkId = this.getAttribute('href').substring(1); // Get the id from href
-                const bookmark = document.getElementById(bookmarkId);
-                if (bookmark) {
-                    bookmark.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Handle popstate event for back navigation
-        window.addEventListener('popstate', function(event) {
-            // If we are navigating back, remove the hash to go back to the original URL
-            if (window.location.hash.startsWith('#bookmark')) {
-                history.replaceState(null, '', window.location.href.split('#')[0]);
-            }
-        });
+  export function decorateBookmarkLinks(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href) {
+      if (href.includes('bookmark')) {
+        const relativeUrl = href.replace(/^.*\/\/[^\/]+/, ''); a.setAttribute('href', relativeUrl);
+        console.log(`Converted to relative URL: ${relativeUrl}`);
+      }
+    }
+  });
+}
 }
 
 /**
