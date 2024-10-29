@@ -52,47 +52,19 @@ function generateId(href) {
 }
 
 
-function decorateLinks(main) {
-
-
-   document.addEventListener('DOMContentLoaded', function() {
-  // Select all anchor tags with href containing 'bookmark'
-  const anchors = document.querySelectorAll('a[href*="#bookmark-"]');
-
-  anchors.forEach(anchor => {
-    anchor.addEventListener('click',	 function(event) {
-      event.preventDefault(); // Prevent default anchor behavior
-      // Get the href attribute's target
-      const bookmarkId = this.getAttribute('href').split('#')[1];
-	  console.log(bookmarkId);
-      // Update the URL with window.location.href
-	  
-	  window.location.html = `#${bookmarkId}`;
-	  console.log('location window: ',window.location.href);
-	  
-	  //console.log("history replace: ",history.replaceState('',`#{bookmarkId}`));
-
-      // Scroll to the bookmarked element
-      const targetElement = document.getElementById(bookmarkId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // Handle the back button functionality
-  window.addEventListener('popstate', function() {
-    if (location.hash.includes("bookmark")) {
-      // If the URL contains 'bookmark', navigate to the bookmark
-      const bookmarkId = location.hash.substring(1);
-      const targetElement = document.getElementById(bookmarkId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  });
-});
-}
+export function decorateBookmarkLinks(main) {
+    main.querySelectorAll('a').forEach((a) => {
+        const href = a.getAttribute('href'); if (href) { 
+					// Check if the href contains 'bookmark'
+					if (href.includes('bookmark')) {
+						// Convert to a relative URL by removing the domain 
+						const relativeUrl = href.replace(/^.*\/\/[^\/]+/, ''); 
+						a.setAttribute('href', relativeUrl); 
+						console.log(`Converted to relative URL: ${relativeUrl}`); 
+					} 
+				} 
+		});
+  }
 
 
 /**
