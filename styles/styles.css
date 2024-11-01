@@ -260,3 +260,7 @@ main .section.blue > div p:first-of-type {
     color: white; /* Change text color for contrast */
     text-transform: uppercase;
 }
+.bookmark p a[href*="#bookmark"] strong {
+    color : blue,
+    text-decoration: none
+}    
