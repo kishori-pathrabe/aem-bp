@@ -13,7 +13,7 @@ export default function decorate(block) {
       
       const contentContainer = document.createElement('div');
       contentContainer.classList.add('hotspot-content');
-        contentContainer.textContent = content; // Display text
+        contentContainer.textContent = 'block; // Display text
         contentContainer.classList.add('bgborder');
         contentContainer.style.display = 'none'; // Initially hide the content
     
