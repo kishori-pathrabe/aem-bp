@@ -18,11 +18,22 @@ export default function decorate(block) {
       if (isTextVariant) {
         contentContainer.textContent = content; // Display text
         contentContainer.classList.add('bgborder');
+        contentContainer.style.display = 'none'; // Initially hide the content
       }
 
       // Append content container to hotspot div
       nexticondiv.appendChild(contentContainer);
       
+      // Show content on hover
+      nexticondiv.addEventListener('mouseenter', () => {
+        contentContainer.style.display = 'block'; // Show the content
+      });
+
+      // Hide content when not hovering
+      nexticondiv.addEventListener('mouseleave', () => {
+        contentContainer.style.display = 'none'; // Hide the content
+      });
+
       nexticondiv.addEventListener('click', () => {
         // Hide content of all other hotspots
         document.querySelectorAll('.hotspot').forEach((hotspot) => {
