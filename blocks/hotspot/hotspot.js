@@ -22,7 +22,7 @@ export default function decorate(block) {
       nexticondiv.appendChild(contentContainer);
       
       // Show content on hover
-      nexticondiv.addEventListener('mouseenter', () => {
+      nexticondiv.addEventListener('click', () => {
         contentContainer.style.display = 'block'; // Show the content
          const anchor = document.createElement('a');
             anchor.href = '#bookmark-1'; // Set the link target
