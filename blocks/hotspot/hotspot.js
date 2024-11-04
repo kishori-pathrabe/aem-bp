@@ -32,6 +32,15 @@ export default function decorate(block) {
       });
 
       nexticondiv.addEventListener('click', () => {
+        const anchor = document.createElement('a');
+            anchor.href = '#bookmark-1'; // Set the link target
+            anchor.style.display = 'none'; // Hide the anchor element (optional)
+
+            // Append the anchor to the body (necessary to make it clickable)
+            document.body.appendChild(anchor);
+
+            // Programmatically click the anchor
+            anchor.click();
         // Hide content of all other hotspots
         document.querySelectorAll('.hotspot').forEach((hotspot) => {
           if (hotspot !== nexticondiv) {
