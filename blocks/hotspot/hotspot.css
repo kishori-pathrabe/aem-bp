@@ -34,10 +34,12 @@
 .block.hotspot > div.hotspot .hotspot-content.bgborder {
     background: white;
     border: 1px solid white;
+    z-index: 17;
 }
 
 .block.hotspot > div.hotspot.onclick .hotspot-content,
-.block.hotspot > div.hotspot:hover .hotspot-content:hover {
+.block.hotspot > div.hotspot:hover .hotspot-content {
+    z-index: 20;
     display: block; /* Show on click or hover */
 }
 
