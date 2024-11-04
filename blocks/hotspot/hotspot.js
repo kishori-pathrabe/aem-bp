@@ -26,7 +26,7 @@ export default function decorate(block) {
       
       // Show content on hover
       nexticondiv.addEventListener('mouseenter', () => {
-        contentContainer.style.display = 'block'; // Show the content
+        contentContainer.style.display = content; // Show the content
       });
 
       // Hide content when not hovering
