@@ -37,7 +37,7 @@
 }
 
 .block.hotspot > div.hotspot.onclick .hotspot-content,
-.block.hotspot > div.hotspot:hover .hotspot-content {
+.block.hotspot > div.hotspot:hover .hotspot-content:hover {
     display: block; /* Show on click or hover */
 }
 
