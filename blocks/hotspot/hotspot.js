@@ -13,7 +13,7 @@ export default function decorate(block) {
       
       const contentContainer = document.createElement('div');
       contentContainer.classList.add('hotspot-content');
-        contentContainer.textContent = 'block; // Display text
+        contentContainer.textContent = content; // Display text
         contentContainer.classList.add('bgborder');
         contentContainer.style.display = 'none'; // Initially hide the content
     
@@ -22,8 +22,8 @@ export default function decorate(block) {
       nexticondiv.appendChild(contentContainer);
       
       // Show content on hover
-      nexticondiv.addEventListener('mouseenter', () => {
-        contentContainer.style.display = content; // Show the content
+      nexticondiv.addEventListener('click', () => {
+        contentContainer.style.display = 'block'; // Show the content
       });
 
       // Hide content when not hovering
