@@ -2,10 +2,9 @@ export default function decorate(block) {
   [...block.children].forEach((row, r) => {
     if (r > 0) {
       const content = [...row.children][0].textContent.trim();
+      console.log('content',content);
       const variant = block.classList.value;  
-      
-      const isTextVariant = !variant.includes('image') && !variant.includes('video');
-
+      console.log('variant',variant);
       const nexticondiv = document.createElement('div');
       nexticondiv.classList.add('hotspot'); // Added class for CSS targeting
       nexticondiv.style.left = [...row.children][1].textContent;
@@ -14,12 +13,10 @@ export default function decorate(block) {
       
       const contentContainer = document.createElement('div');
       contentContainer.classList.add('hotspot-content');
-      
-      if (isTextVariant) {
         contentContainer.textContent = content; // Display text
         contentContainer.classList.add('bgborder');
         contentContainer.style.display = 'none'; // Initially hide the content
-      }
+    
 
       // Append content container to hotspot div
       nexticondiv.appendChild(contentContainer);
