@@ -24,15 +24,7 @@ export default function decorate(block) {
       // Show content on hover
       nexticondiv.addEventListener('mouseenter', () => {
         contentContainer.style.display = 'block'; // Show the content
-      });
-
-      // Hide content when not hovering
-      nexticondiv.addEventListener('mouseleave', () => {
-        contentContainer.style.display = 'none'; // Hide the content
-      });
-
-      nexticondiv.addEventListener('click', () => {
-        const anchor = document.createElement('a');
+         const anchor = document.createElement('a');
             anchor.href = '#bookmark-1'; // Set the link target
             anchor.style.display = 'none'; // Hide the anchor element (optional)
 
@@ -41,6 +33,15 @@ export default function decorate(block) {
 
             // Programmatically click the anchor
             anchor.click();
+      });
+
+      // Hide content when not hovering
+      nexticondiv.addEventListener('mouseleave', () => {
+        contentContainer.style.display = 'none'; // Hide the content
+      });
+
+      nexticondiv.addEventListener('click', () => {
+       
         // Hide content of all other hotspots
         document.querySelectorAll('.hotspot').forEach((hotspot) => {
           if (hotspot !== nexticondiv) {
