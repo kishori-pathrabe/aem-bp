@@ -54,106 +54,110 @@ function buildAutoBlocks(main) {
   }
 }
 
-function decorateLinks(main) {
+// Helper function to convert absolute URLs to relative
+function convertToRelative(href) {
+  const url = new URL(href, window.location.origin);
+  return url.pathname + url.search + url.hash;
+}
 
-  let linkobj = {};
+// Helper function to generate a valid id from the relative URL
+function generateId(href) {
+  const url = convertToRelative(href);
+  return url.pathname.replace(/[^\w-]+/g, '_') + url.search.replace(/[^\w-]+/g, '_') + url.hash.replace(/[^\w-]+/g, '_');
+}
+
+
+function decorateLinks(main) {
   // Get all anchor elements within the main container
   const links = main.querySelectorAll('a');
 
   // Helper function to convert absolute URLs to relative
   function convertToRelative(href) {
-    const url = new URL(href, window.location.origin);
-    return url.pathname + url.search + url.hash;
+      const url = new URL(href, window.location.origin);
+      return url.pathname + url.search + url.hash;
   }
 
   // Counter to generate unique ids for each internal link and backlinks
   let linkCounter = 0;
+
   // Loop through each anchor element
-  links.forEach((link, ind) => {
-    const { href } = link;
-    // Convert to relative URL if the link is within the same domain
-    if (href.startsWith(window.location.origin)) {
-      const relativeHref = convertToRelative(href);
-      console.log("relativeHref", relativeHref)
-      link.setAttribute('href', relativeHref);
-    }
-    // Only generate a unique id if the link does not already have one
-    if (!link.hasAttribute('id')) {
-      linkCounter++;
-      const uniqueId = `link-${linkCounter}`;
-      link.setAttribute('id', uniqueId);
-    }
+  links.forEach((link) => {
+      const { href } = link;
 
-    // If the link has a hash (indicating an internal reference), locate the target element
-    if (link.hash) {
-      const targetId = link.hash.substring(1); // Get the target ID without the '#' character
-      const targetElement = document.getElementById(targetId);
-      // Only proceed if a target element exists
-      if (targetElement) {
-        // Find the parent paragraph of the target element
-        const targetParentParagraph = targetElement.closest('p');
-        if (targetParentParagraph) {
-          // Check if any reverse links with href starting with "#link" already exist in the target paragraph
-          const reverseLinkExists = Array.from(targetParentParagraph.querySelectorAll('a.reverse-link'))
-            .some(
-              (existingLink) => existingLink.getAttribute('href').startsWith('#link')
-            );
-          // Check if any reverse links with href starting with "#link" already exist in the target paragraph
-          if (reverseLinkExists) {
-            if (!link.classList.length) {
-              if (!linkobj[link.hash]) {
-                linkobj[link.hash] = `#link-${linkCounter}`
-              }
-            }
-
-          }
-          if (!reverseLinkExists) {
-            // Create a reverse reference link only if it doesn't exist
-            const paragraphsWithAnchor = document.querySelectorAll('.references p');
-            paragraphsWithAnchor.forEach((paragraph) => {
-              // Check if the paragraph contains an <a> tag
-              const anchor = paragraph.querySelector('a');
-              if (anchor) {
-                console.log("if anchor ", anchor)
-                // Extract the citation number (the part before the first period in the text)
-                const citationText = paragraph.textContent.split('.')[0] + '.';
-                console.log("xxx", paragraph.textContent);
-                // Set the inner HTML of the anchor tag to include the number
-                anchor.innerHTML = citationText;
-                // Dynamically set the 'href' and 'class' attributes
-                console.log("link: ", `#${link.id}`)
-                anchor.href = `#${link.id}`;
-                anchor.classList.add('reverse-link');
-                // console.log("textc", paragraph.textContent);
-                if ((links.length - 1) === ind) {
-                  let originalString = paragraph.innerHTML;
-                  console.log('originalString', originalString)
-                  let result = originalString.slice(0, 74) + '' + originalString.slice(76);
-
-                  paragraph.innerHTML = result;
-
-                }
-                paragraph.innerHTML = paragraph.innerHTML.replace(citationText + '.', ''); // Remove only the citation number with period
-              }
-
-            })
-          }
-        }
+      // Convert to relative URL if the link is within the same domain
+      if (href.startsWith(window.location.origin)) {
+          const relativeHref = convertToRelative(href);
+          link.setAttribute('href', relativeHref);
       }
-    }
+
+      // Only generate a unique id if the link does not already have one
+      if (!link.hasAttribute('id')) {
+          linkCounter++;
+          const uniqueId = `link-${linkCounter}`;
+          link.setAttribute('id', uniqueId);
+      }
+
+      // If the link has a hash (indicating an internal reference), locate the target element
+      if (link.hash) {
+          const targetId = link.hash.substring(1); // Get the target ID without the '#' character
+          const targetElement = document.getElementById(targetId);
+
+          // Only proceed if a target element exists
+          if (targetElement) {
+              // Find the parent paragraph of the target element
+              const targetParentParagraph = targetElement.closest('p');
+
+              if (targetParentParagraph) {
+                  // Check if any reverse links with href starting with "#link" already exist in the target paragraph
+                  const reverseLinkExists = Array.from(targetParentParagraph.querySelectorAll('a.reverse-link')).some(
+                      (existingLink) => existingLink.getAttribute('href').startsWith('#link')
+                  );
+
+                  if (!reverseLinkExists) {
+                      // Create a reverse reference link only if it doesn't exist
+                      const reverseRef = document.createElement('a');
+                      reverseRef.href = `#${link.id}`; // Use the existing or newly set id as the reverse reference
+                      reverseRef.textContent = '↩ Back to reference';
+                      reverseRef.classList.add('reverse-link'); // Add a specific class for easy identification
+                      reverseRef.style.display = 'block';
+                      reverseRef.style.fontSize = '0.9em';
+                      reverseRef.style.color = '#007bff';
+
+                      // Append the reverse reference to the parent paragraph of the target element
+                      targetParentParagraph.appendChild(reverseRef);
+                  }
+              }
+          }
+      }
+
 
   });
-  let obj = linkobj;
-  // Iterate over each key-value pair in the object
-  for (let key in obj) {
-    // Get the bookmark element using the key (e.g., #bookmark-2)
-    let bookmarkElement = document.querySelector(key);
-    // Get the link element using the value (e.g., #link-2)
-    // If both elements are found, set the href of the bookmark to the href of the link
-    bookmarkElement.href = obj[key];
-  }
 }
 
+function convertToRelativeUrls(main) {
+    // Find all <a> tags with 'href' containing 'bookmark-*'
+    const anchorTags = main.querySelectorAll('a[href*="bookmark-"]');
+    
+    anchorTags.forEach(anchor => {
+        // Get the current href and id attributes
+        let href = anchor.getAttribute('href');
+        const id = anchor.getAttribute('id');
+        
+        // Extract only the fragment part (starting with #) from the href
+        if (href && href.includes('#')) {
+            href = href.substring(href.indexOf('#'));
+        }
+        
+        // Remove all attributes
+        while (anchor.attributes.length > 0) {
+            anchor.removeAttribute(anchor.attributes[0].name);
+        }
+        
+        // Restore essential attributes
+        if (href) anchor.setAttribute('href', href);
+        if (id) anchor.setAttribute('id', id);
+    });
+}
 
 
 /**
@@ -169,6 +173,8 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateLinks(main);
+  // Call the function to convert URLs
+  convertToRelativeUrls(main);
 }
 
 /**
